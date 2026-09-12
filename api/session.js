@@ -108,6 +108,16 @@ export default async function handler(req, res) {
           model: 'gpt-live-1',
           instructions: buildInstructions(persona),
           audio: {
+            input: {
+              turn_detection: {
+                type: 'server_vad',
+                threshold: 0.5,
+                prefix_padding_ms: 250,
+                silence_duration_ms: 250,
+                create_response: true,
+                interrupt_response: true,
+              },
+            },
             output: {
               voice,
             },
