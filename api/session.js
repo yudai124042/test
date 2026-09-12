@@ -108,19 +108,7 @@ export default async function handler(req, res) {
           model: 'gpt-live-1',
           instructions: buildInstructions(persona),
           audio: {
-            input: {
-              turn_detection: {
-                type: 'server_vad',
-                threshold: 0.5,
-                prefix_padding_ms: 250,
-                silence_duration_ms: 250,
-                create_response: true,
-                interrupt_response: true,
-              },
-            },
-            output: {
-              voice,
-            },
+            output: { voice },
           },
           store: false,
         },
@@ -137,7 +125,7 @@ export default async function handler(req, res) {
       return res.status(response.status).send(text);
     }
 
-    res.status(201).setHeader('Content-Type', 'application/json').send(text);
+    return res.status(201).setHeader('Content-Type', 'application/json').send(text);
   } catch (error) {
     console.error('Live session creation failed', error);
     return res.status(502).json({ error: 'Live session creation failed.' });
